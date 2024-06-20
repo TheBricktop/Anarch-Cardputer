@@ -200,7 +200,8 @@ void SFG_init();
 #include "settings.h"
 
 #if SFG_AVR
-  #include <avr/pgmspace.h>
+  //#include <avr/pgmspace.h>
+  #include <pgmspace.h>
 
   #define SFG_PROGRAM_MEMORY const PROGMEM
   #define SFG_PROGRAM_MEMORY_U8(addr) pgm_read_byte(addr)

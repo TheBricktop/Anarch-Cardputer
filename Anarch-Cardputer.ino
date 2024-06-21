@@ -56,7 +56,8 @@
 #include "sounds.h"
 
 uint8_t *gamescreen;
-uint8_t keys;
+int keys[8];
+
 
 void SFG_setPixel(uint16_t x, uint16_t y, uint8_t colorIndex)
 {
@@ -76,14 +77,14 @@ int8_t SFG_keyPressed(uint8_t key)
 {
   switch (key)
   {
-    case SFG_KEY_UP:    return keys & 0x02; break;
-    case SFG_KEY_DOWN:  return keys & 0x04; break;
-    case SFG_KEY_RIGHT: return keys & 0x08; break;
-    case SFG_KEY_LEFT:  return keys & 0x01; break;
-    case SFG_KEY_A:     return keys & 0x10; break;
-    case SFG_KEY_B:     return keys & 0x20; break;
-    case SFG_KEY_C:     return keys & 0x80; break;
-    case SFG_KEY_MAP:   return keys & 0x40; break;
+    case SFG_KEY_UP:    return keys[0]; break;
+    case SFG_KEY_DOWN:  return keys[1]; break;
+    case SFG_KEY_RIGHT: return keys[2]; break;
+    case SFG_KEY_LEFT:  return keys[3]; break;
+    case SFG_KEY_A:     return keys[4]; break;
+    case SFG_KEY_B:     return keys[5]; break;
+    case SFG_KEY_C:     return keys[6]; break;
+    case SFG_KEY_MAP:   return keys[7]; break;
     default: return 0; break;
   }
 }
@@ -187,8 +188,11 @@ void draw_frame(uint32_t fb[144][160]) {
 void setup()
 {
   auto cfg = M5.config();
-  M5Cardputer.begin(cfg);
+  M5Cardputer.begin(cfg,true);
   gamescreen = new uint8_t [SFG_SCREEN_RESOLUTION_X * SFG_SCREEN_RESOLUTION_Y];
+
+  //keys = new int[8];
+
   int textsize = M5Cardputer.Display.height() / 60;
   if (textsize == 0) {
         textsize = 1;
@@ -205,6 +209,54 @@ void setup()
 
 
 void loop() {
+  /*
+  Cardputer input
+  i dont get how to translate the m5 cardputer input events to anarch ones but ill try
+  */
+  //memset(keys, 0, sizeof(keys));
+
+  M5Cardputer.update();
+    if (M5Cardputer.Keyboard.isChange()) {
+        if (M5Cardputer.Keyboard.isPressed()) {
+            Keyboard_Class::KeysState status = M5Cardputer.Keyboard.keysState();
+            /*
+            e = up
+            s = down
+            d = right
+            a = left
+
+            , = A - fire
+            . = B - cancel
+            / = C - jump
+            ; = MAP
+            */
+            for (auto i : status.word) {
+              // letter keys input
+              switch (i) {
+                case 'e': keys[0] = 1; break;
+                case 's': keys[1] = 1; break;
+                case 'd': keys[2] = 1; break;
+                case 'a': keys[3] = 1; break;
+                case ',': keys[4] = 1; break;
+                case '.': keys[5] = 1; break;
+                case '/': keys[6] = 1; break;
+                case ';': keys[7] = 1; break;
+                default: break;
+              }
+            }
+
+            if (status.del) {
+                
+            }
+
+            if (status.enter) {
+                
+            }
+        }
+        else{
+              memset(keys, 0, sizeof(keys));
+            }
+    }
 
     SFG_mainLoopBody();
   /*
@@ -220,7 +272,7 @@ void loop() {
         M5Cardputer.Display.drawPixel(i, j, scrbf[i]);
       }
         
-    //myESPboy.tft.pushPixels(&scrbf, SFG_SCREEN_RESOLUTION_X);
+    
   }
 
 

@@ -1,9 +1,31 @@
-# Anarch - ESPboy port
+# Anarch - M5 Cardputer port
 - Thanks to [Miloslav Číž @drummyfish](http://www.tastyfish.cz/) for this excellent project and porting to ESPboy
 - [ESPboy project details](www.espboy.com)
 - [Original Anarch code](https://gitlab.com/drummyfish/anarch)
 - ESPboy digital music and sound FX player by [Shiru](https://www.patreon.com/shiru8bit/posts)
-- Small ESPboy render optimization by RomanS
+
+Input : 
+  /*
+  e = up
+  s = down
+  d = right
+  a = left
+
+  , = A - fire
+  . = B - cancel
+  / = C - jump
+  ; = MAP
+  */
+
+## What Works
+- rendering to cardputer display via draw pixel (kinda slow)
+- cardputer input mapped to anarch input
+- plays nicely with m5launcher
+## TODO
+- sounds
+- saves
+- rendering optimisations
+- size optimisations
 
 ![](media/logo_big.png)
 
@@ -14,6 +36,8 @@ everywhere, made for the benefit of all living beings*
 [website](https://drummyfish.gitlab.io/anarch) - [trailer](https://libre.video/videos/watch/c968774a-c12d-46d6-8851-0c578ffa8dcb) - [play in browser](https://drummyfish.gitlab.io/anarch/bin/web/anarch.html) - [itch.io](https://drummyfish.itch.io/anarch)
 
 ![](media/3screens.png)
+
+![](media/anarch.mp4)
 
 This game got some attention on 4chan: [1](https://archive.li/Yzcwt), [2](https://archive.li/xY4ia), [3](https://archive.li/tFWrL).
 

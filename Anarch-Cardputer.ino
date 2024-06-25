@@ -1,5 +1,4 @@
 /**
-  @file main_espboy.ino
 
   This is m5 Cardputer implementation of the game front end.
 
@@ -44,7 +43,7 @@
 #define SFG_AVR 1
 
 #include "M5Cardputer.h"
-
+#include <M5GFX.h>
 
 #if SFG_CAN_SAVE
 #include <EEPROM.h>
@@ -55,13 +54,16 @@
 
 #include "sounds.h"
 
-uint8_t *gamescreen;
+M5GFX display;
+
+uint16_t gamescreen[SFG_SCREEN_RESOLUTION_Y][SFG_SCREEN_RESOLUTION_X];
 int keys[8];
 
 
 void SFG_setPixel(uint16_t x, uint16_t y, uint8_t colorIndex)
 {
-  gamescreen[y * SFG_SCREEN_RESOLUTION_X + x] = colorIndex;
+  //gamescreen[y * SFG_SCREEN_RESOLUTION_X + x] = colorIndex;
+  gamescreen[y][x] = paletteRGB565[colorIndex];
 }
 
 void SFG_sleepMs(uint16_t timeMs)
@@ -189,9 +191,6 @@ void setup()
 {
   auto cfg = M5.config();
   M5Cardputer.begin(cfg,true);
-  gamescreen = new uint8_t [SFG_SCREEN_RESOLUTION_X * SFG_SCREEN_RESOLUTION_Y];
-
-  //keys = new int[8];
 
   int textsize = M5Cardputer.Display.height() / 60;
   if (textsize == 0) {
@@ -262,18 +261,22 @@ void loop() {
   /*
   Display code
   trying to determine how to print framebuffer to the screen 
+  old pixel by pixel drawing is slow so im upgrading it using the bitmapto screen method hopefully
   */
+  /*
     static uint16_t scrbf[SFG_SCREEN_RESOLUTION_X];
     uint32_t readscrbf=0;
-  
     for (uint32_t j=0; j<SFG_SCREEN_RESOLUTION_Y; j++){
       for (uint32_t i=0; i<SFG_SCREEN_RESOLUTION_X; i++){
         scrbf[i]=paletteRGB565[gamescreen[readscrbf++]];
-        M5Cardputer.Display.drawPixel(i, j, scrbf[i]);
+        //M5Cardputer.Display.drawPixel(i, j, scrbf[i]);
       }
         
+    }
+
     
-  }
+/*/
+    M5Cardputer.Display.drawBitmap(0,0,SFG_SCREEN_RESOLUTION_X,SFG_SCREEN_RESOLUTION_Y,gamescreen);
 
 
 }

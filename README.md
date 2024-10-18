@@ -8,13 +8,19 @@ Input :
   /*
   
   e = up
+  
   s = down
+  
   d = right
+  
   a = left
 
   , = A - fire
+  
   . = B - cancel
+  
   / = C - jump
+  
   ; = MAP
   
   */

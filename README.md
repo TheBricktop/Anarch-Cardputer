@@ -6,6 +6,7 @@
 
 Input : 
   /*
+  
   e = up
   s = down
   d = right
@@ -15,10 +16,11 @@ Input :
   . = B - cancel
   / = C - jump
   ; = MAP
+  
   */
 
 ## What Works
-- rendering to cardputer display via draw pixel (kinda slow)
+- fast rendering to cardputer display via draw bitmap
 - cardputer input mapped to anarch input
 - plays nicely with m5launcher
 ## TODO
